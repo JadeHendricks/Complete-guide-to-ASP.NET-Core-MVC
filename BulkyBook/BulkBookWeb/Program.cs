@@ -1,7 +1,14 @@
+using BulkBookWeb.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Connecting to our DB
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+));
 
 //this would be needed if we didn't have hot reload built in already.
 //builder.Services.AddRazorPages();
