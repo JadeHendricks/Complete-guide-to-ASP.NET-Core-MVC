@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
 ));
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();   
 
 //this would be needed if we didn't have hot reload built in already.
 //builder.Services.AddRazorPages();

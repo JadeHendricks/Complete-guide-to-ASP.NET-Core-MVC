@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "yofMQc/JRlYiFYZmMZZUbgwa5saC9zY231GIJ0VuoC0=",
+  "Hash": "4lTSNNKQQSP53/moN0kN6GNAYLKvXaqgnUjbAqxD5yc=",
   "Source": "BulkBookWeb",
   "BasePath": "_content/BulkBookWeb",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\hendr\\Desktop\\Repos\\Complete-guide-to-ASP.NET-Core-MVC\\BulkyBook\\BulkBookWeb\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BulkBookWeb.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\hendr\\Desktop\\Repos\\Complete-guide-to-ASP.NET-Core-MVC\\BulkyBook\\BulkBookWeb\\wwwroot\\css\\bootswatchTheme.css",
+      "SourceId": "BulkBookWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\hendr\\Desktop\\Repos\\Complete-guide-to-ASP.NET-Core-MVC\\BulkyBook\\BulkBookWeb\\wwwroot\\",
+      "BasePath": "_content/BulkBookWeb",
+      "RelativePath": "css/bootswatchTheme.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\bootswatchTheme.css"
     },
     {
       "Identity": "C:\\Users\\hendr\\Desktop\\Repos\\Complete-guide-to-ASP.NET-Core-MVC\\BulkyBook\\BulkBookWeb\\wwwroot\\css\\site.css",
