@@ -20,7 +20,6 @@ namespace BulkBookWeb.Controllers
         //Get Action Method
         public IActionResult Create()
         {
-
             return View();
         }
 
@@ -41,5 +40,78 @@ namespace BulkBookWeb.Controllers
             }
             return View();
         }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            //var categoryFromDbFirst = _db.Categories.FirstOrDefault(u => u.Id == id);
+            //var categoryFromDbSingle = _db.Categories.SingleOrDefault(u => u.Id == id);
+            var categoryFromDb = _db.Categories.Find(id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        //Post Action Method
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category obj)
+        {
+            if (obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name");
+            }
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            //var categoryFromDbFirst = _db.Categories.FirstOrDefault(u => u.Id == id);
+            //var categoryFromDbSingle = _db.Categories.SingleOrDefault(u => u.Id == id);
+            var categoryFromDb = _db.Categories.Find(id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        //Post Action Method
+        [HttpPost,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
+        {
+            var obj = _db.Categories.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            _db.Categories.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }
