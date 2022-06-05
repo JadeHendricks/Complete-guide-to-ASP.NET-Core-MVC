@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "O/MwdW0yRulr7B3jIv5uefW2SB8XNNwS6sJvYs8vodg=",
+  "Hash": "FBdMvjwnK2THUq2HOoNxQ15c79THrqxBmvkE026VCrg=",
   "Source": "AbbyWeb",
   "BasePath": "_content/AbbyWeb",
   "Mode": "Default",
@@ -51,12 +51,12 @@
       "OriginalItemSpec": "C:\\Users\\hendr\\Desktop\\Repos\\Complete-guide-to-ASP.NET-Core-MVC\\Abby\\AbbyWeb\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\AbbyWeb.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\hendr\\Desktop\\Repos\\Complete-guide-to-ASP.NET-Core-MVC\\Abby\\AbbyWeb\\wwwroot\\css\\bootswatch_cyborg.css",
+      "Identity": "C:\\Users\\hendr\\Desktop\\Repos\\Complete-guide-to-ASP.NET-Core-MVC\\Abby\\AbbyWeb\\wwwroot\\css\\bootswatch_darkly.css",
       "SourceId": "AbbyWeb",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\hendr\\Desktop\\Repos\\Complete-guide-to-ASP.NET-Core-MVC\\Abby\\AbbyWeb\\wwwroot\\",
       "BasePath": "_content/AbbyWeb",
-      "RelativePath": "css/bootswatch_cyborg.css",
+      "RelativePath": "css/bootswatch_darkly.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -65,7 +65,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\bootswatch_cyborg.css"
+      "OriginalItemSpec": "wwwroot\\css\\bootswatch_darkly.css"
     },
     {
       "Identity": "C:\\Users\\hendr\\Desktop\\Repos\\Complete-guide-to-ASP.NET-Core-MVC\\Abby\\AbbyWeb\\wwwroot\\css\\site.css",
