@@ -16,5 +16,17 @@ namespace BulkyWeb.Data
         //when we need to create a table we have to create something call a DbSet inside of ApplicationDbContext + add-migration "name of migration" + update-database
         //DbSet<ModelName> TableName
         public DbSet<Category> Categories { get; set; }
+
+        //seeding data
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Entity<WhatTableEntityWillBeWorkingOn>
+            //HasData expects an array of categories that we want to seed into the Table
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
+                new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
+                new Category { Id = 3, Name = "History", DisplayOrder = 3 }
+            );
+        }
     }
 }

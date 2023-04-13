@@ -1,1 +1,25 @@
-﻿<h1>Category List</h1>
+﻿<!--Getting access to the data that is passed down via the controller -->
+@model List<Category>
+
+<hl>Category List</h1>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                Display Order
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var category in Model)
+    {
+        <tr>
+            <td>@category.Name</td>
+            <td>@category.DisplayOrder</td>
+        </tr>
+    }
+    </tbody>
+</table>
