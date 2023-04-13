@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BulkyWeb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb.Data
 {
@@ -11,5 +12,9 @@ namespace BulkyWeb.Data
         {
 
         }
+
+        //when we need to create a table we have to create something call a DbSet inside of ApplicationDbContext + add-migration "name of migration" + update-database
+        //DbSet<ModelName> TableName
+        public DbSet<Category> Categories { get; set; }
     }
 }
