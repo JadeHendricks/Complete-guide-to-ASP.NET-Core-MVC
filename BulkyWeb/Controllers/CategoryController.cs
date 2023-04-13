@@ -19,5 +19,11 @@ namespace BulkyWeb.Controllers
             List<Category> objCategoryList = _db.Categories.ToList();
             return View(objCategoryList);
         }
+
+        //creating a new action method for the "Create new category button"
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
