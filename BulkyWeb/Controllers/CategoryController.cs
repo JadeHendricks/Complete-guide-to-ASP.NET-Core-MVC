@@ -45,6 +45,8 @@ namespace BulkyWeb.Controllers
                 _db.Categories.Add(obj);
                 //saving the category to the table (whatever is in the queue)
                 _db.SaveChanges();
+                //allows you to show a notification on the next page
+                TempData["success"] = "Category created successfully!";
                 //redirect to index inside of category class
                 return RedirectToAction("Index", "Category");
             }
@@ -84,6 +86,8 @@ namespace BulkyWeb.Controllers
                 //saving the category to the table (whatever is in the queue)
                 //it will automatically update all the fields present inside of obj inside of the table
                 _db.SaveChanges();
+                //allows you to show a notification on the next page
+                TempData["success"] = "Category updated successfully!";
                 //redirect to index inside of category class
                 return RedirectToAction("Index", "Category");
             }
@@ -123,6 +127,8 @@ namespace BulkyWeb.Controllers
 
             _db.Categories.Remove(obj);
             _db.SaveChanges();
+            //allows you to show a notification on the next page
+            TempData["success"] = "Category deleted successfully!";
             return RedirectToAction("Index", "Category");
         }
     }
