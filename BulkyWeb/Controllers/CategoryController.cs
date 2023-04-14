@@ -90,5 +90,40 @@ namespace BulkyWeb.Controllers
             //stay on the page you're on
             return View();
         }
+
+        //Delete Category action
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            //retrieve one category from the DB
+            //find only works on the primary key
+            //if you want to find other things use FirstOrDefault();
+            Category? categoryFromDb = _db.Categories.Find(id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePost(int? id)
+        {
+            Category? obj = _db.Categories.Find(id);
+            if (obj == null)
+            {
+                return NotFound();                
+            }
+
+            _db.Categories.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Category");
+        }
     }
 }

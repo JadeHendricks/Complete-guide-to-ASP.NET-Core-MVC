@@ -6,26 +6,22 @@
     <input asp-for="Id" hidden />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Edit Category</h2>
+            <h2 class="text-primary">Delete Category</h2>
             <hr />
         </div>
-        <!--we can also use ModelOnly || None || All (even if the error subject is blank), ModelOnly will only show model errors in here else nothing-->
-        <div asp-validation-summary="ModelOnly"></div>
         <div class="mb-3 p-1 row">
             <!--if the values are already populated it will automatically be inserted into the inputs-->
             <label asp-for="Name" class="p-0"></label>
-            <input asp-for="Name" class="form-control">
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <input asp-for="Name" class="form-control" disabled>
         </div>
         <div class="mb-3 p-1 row">
             <!--if the values are already populated it will automatically be inserted into the inputs-->
             <label asp-for="DisplayOrder" class="p-0"></label>
-            <input asp-for="DisplayOrder" class="form-control">
-            <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+            <input asp-for="DisplayOrder" class="form-control" disabled>
         </div>
         <div class="row">
             <div class="col-6 col-md-3">
-                <button type="submit" class="btn btn-primary form-control">Update</button>
+                <button type="submit" class="btn btn-danger form-control">Delete</button>
             </div>
             <div class="col-6 col-md-3">
                 <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary border form-control">
@@ -35,10 +31,3 @@
         </div>
     </div>
 </form>
-
-<!--This will allow client side validation and prevent the page from reloading-->
-@section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}
