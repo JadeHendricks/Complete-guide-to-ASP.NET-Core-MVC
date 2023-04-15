@@ -1,7 +1,7 @@
-﻿using BulkyWeb.Models;
+﻿using Bulky.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BulkyWeb.Data
+namespace BulkyWeb.DataAccess.Data
 {
     //this is config that needs to be setup to use entity framework core
     //DbContext is basically the root class of entity framework core and it is with this that we will be accessing Entity Framework
