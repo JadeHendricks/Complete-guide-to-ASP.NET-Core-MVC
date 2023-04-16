@@ -4,8 +4,9 @@ using Bulky.Models;
 using BulkyWeb.DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BulkyWeb.Controllers
+namespace BulkyWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -34,14 +35,14 @@ namespace BulkyWeb.Controllers
         public IActionResult Create(Category obj)
         {
             //custom validation
-            if(obj.Name == obj.DisplayOrder.ToString())
+            if (obj.Name == obj.DisplayOrder.ToString())
             {
                 //adding custom validation to the current modelState
                 ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the name");
             }
 
             //check that all the parts follow the requirements set in the model
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //adding the category to the table queue
                 _unitOfWork.Category.Add(obj);
@@ -124,7 +125,7 @@ namespace BulkyWeb.Controllers
             Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
             if (obj == null)
             {
-                return NotFound();                
+                return NotFound();
             }
 
             _unitOfWork.Category.Remove(obj);
