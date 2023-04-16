@@ -1,4 +1,5 @@
-﻿using Bulky.DataAccess.Repository.IRepository;
+﻿using Bulky.DataAccess.Repository;
+using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using BulkyWeb.DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -7,17 +8,17 @@ namespace BulkyWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         //because dbContext is registered in our services, we have access to it here via dependency injection
-        public CategoryController(ICategoryRepository categoryRepository)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
             //getting all the categories from the category table
-            List<Category> objCategoryList = _categoryRepository.GetAll().ToList();
+            List<Category> objCategoryList = _unitOfWork.Category.GetAll().ToList();
             return View(objCategoryList);
         }
 
@@ -43,9 +44,9 @@ namespace BulkyWeb.Controllers
             if(ModelState.IsValid)
             {
                 //adding the category to the table queue
-                _categoryRepository.Add(obj);
+                _unitOfWork.Category.Add(obj);
                 //saving the category to the table (whatever is in the queue)
-                _categoryRepository.Save();
+                _unitOfWork.Save();
                 //allows you to show a notification on the next page
                 TempData["success"] = "Category created successfully!";
                 //redirect to index inside of category class
@@ -66,7 +67,7 @@ namespace BulkyWeb.Controllers
             //retrieve one category from the DB
             //find only works on the primary key
             //if you want to find other things use FirstOrDefault();
-            Category? categoryFromDb = _categoryRepository.Get(u => u.Id == id);
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
 
             if (categoryFromDb == null)
             {
@@ -83,10 +84,10 @@ namespace BulkyWeb.Controllers
             if (ModelState.IsValid)
             {
                 //updating the category to the table queue
-                _categoryRepository.Update(obj);
+                _unitOfWork.Category.Update(obj);
                 //saving the category to the table (whatever is in the queue)
                 //it will automatically update all the fields present inside of obj inside of the table
-                _categoryRepository.Save();
+                _unitOfWork.Save();
                 //allows you to show a notification on the next page
                 TempData["success"] = "Category updated successfully!";
                 //redirect to index inside of category class
@@ -107,7 +108,7 @@ namespace BulkyWeb.Controllers
             //retrieve one category from the DB
             //find only works on the primary key
             //if you want to find other things use FirstOrDefault();
-            Category? categoryFromDb = _categoryRepository.Get(u => u.Id == id);
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
 
             if (categoryFromDb == null)
             {
@@ -120,14 +121,14 @@ namespace BulkyWeb.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            Category? obj = _categoryRepository.Get(u => u.Id == id);
+            Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
             if (obj == null)
             {
                 return NotFound();                
             }
 
-            _categoryRepository.Remove(obj);
-            _categoryRepository.Save();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Save();
             //allows you to show a notification on the next page
             TempData["success"] = "Category deleted successfully!";
             return RedirectToAction("Index", "Category");
