@@ -1,6 +1,8 @@
-﻿using Bulky.DataAccess.Repository.IRepository;
+﻿ using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -24,28 +26,52 @@ namespace BulkyWeb.Areas.Admin.Controllers
         //creating a new action method for the "Create new Product button"
         public IActionResult Create()
         {
-            return View();
+            //each category object here will be converted into a SelectListItem that has a text and a value - this is projection (like a map)
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
+
+            //allows us to send tempdata to the view
+            //ViewBag.CategoryList = CategoryList;
+
+            //create new object that matches ProductVM to send to the view
+            ProductVM productVM = new()
+            {
+                CategoryList = CategoryList,
+                Product = new Product()
+            };
+
+            return View(productVM);
         }
 
         //whenever something is being posted, this endpoint will be invoked
         //when then get the Product object from the form as @model Product gives the form this object model
         [HttpPost]
-        public IActionResult Create(Product obj)
+        public IActionResult Create(ProductVM productVM)
         {
             //check that all the parts follow the requirements set in the model
             if (ModelState.IsValid)
             {
                 //adding the Product to the table queue
-                _unitOfWork.Product.Add(obj);
+                _unitOfWork.Product.Add(productVM.Product);
                 //saving the Product to the table (whatever is in the queue)
                 _unitOfWork.Save();
                 //allows you to show a notification on the next page
                 TempData["success"] = "Product created successfully!";
                 //redirect to index inside of Product class
                 return RedirectToAction("Index", "Product");
+            } else
+            {
+                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+                //stay on the page you're on
+                return View(productVM);
             }
-            //stay on the page you're on
-            return View();
         }
 
         //Edit Product action
