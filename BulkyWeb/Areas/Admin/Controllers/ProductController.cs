@@ -24,32 +24,44 @@ namespace BulkyWeb.Areas.Admin.Controllers
         }
 
         //creating a new action method for the "Create new Product button"
-        public IActionResult Create()
+        //update and insert
+        //if you are creating a product you won't have and id, else if you are editing you will have an id.
+        public IActionResult Upsert(int? id)
         {
-            //each category object here will be converted into a SelectListItem that has a text and a value - this is projection (like a map)
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
-            {
-                Text = u.Name,
-                Value = u.Id.ToString()
-            });
-
             //allows us to send tempdata to the view
             //ViewBag.CategoryList = CategoryList;
 
             //create new object that matches ProductVM to send to the view
             ProductVM productVM = new()
             {
-                CategoryList = CategoryList,
+                //each category object here will be converted into a SelectListItem that has a text and a value - this is projection (like a map)
+                CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
                 Product = new Product()
             };
 
-            return View(productVM);
+            //this will mean we want to create a product
+            //else we are updating a product
+            if (id == null || id == 0)
+            {
+                //create
+                return View(productVM);
+            } else
+            {
+                //update
+                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
+                return View(productVM);
+            }
         }
 
         //whenever something is being posted, this endpoint will be invoked
         //when then get the Product object from the form as @model Product gives the form this object model
+        //IFormFile aka if there is a file being uploaded
         [HttpPost]
-        public IActionResult Create(ProductVM productVM)
+        public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
             //check that all the parts follow the requirements set in the model
             if (ModelState.IsValid)
@@ -72,27 +84,6 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 //stay on the page you're on
                 return View(productVM);
             }
-        }
-
-        //Edit Product action
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            //retrieve one Product from the DB
-            //find only works on the primary key
-            //if you want to find other things use FirstOrDefault();
-            Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-
-            if (productFromDb == null)
-            {
-                return NotFound();
-            }
-
-            return View(productFromDb);
         }
 
         [HttpPost]

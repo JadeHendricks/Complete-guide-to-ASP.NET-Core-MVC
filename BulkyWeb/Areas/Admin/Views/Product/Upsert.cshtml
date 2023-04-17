@@ -5,13 +5,14 @@
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="py-2 text-white">Create Product</h2>
+                <h2 class="py-2 text-white">@(Model.Product.Id != 0 ? "Update" : "Create") Product</h2>
             </div>
         </div>
     </div>
     <div class="card-body p-4">
         <!--enctype="multipart/form-data" needs to be added else the file upload will not work-->
         <form method="post" class="row" enctype="multipart/form-data">
+            <input asp-for="Product.Id" hidden />
             <div class="border p-3">
                 <!--we can also use ModelOnly || None || All (even if the error subject is blank), ModelOnly will only show model errors in here else nothing-->
                 <div asp-validation-summary="ModelOnly"></div>
@@ -78,7 +79,14 @@
                 </div>
                 <div class="row pt-2">
                     <div class="col-6 col-md-3">
-                        <button type="submit" class="btn btn-primary form-control">Create</button>
+                        @if(Model.Product.Id != 0)
+                        {
+                            <button type="submit" class="btn btn-primary form-control">Update</button>     
+                        } else
+                        {
+                            <button type="submit" class="btn btn-primary form-control">Create</button>
+                        }
+
                     </div>
                     <div class="col-6 col-md-3">
                         <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary border form-control">
