@@ -9,18 +9,24 @@ function loadTable() {
             { data: 'title', "width": "25%" },
             { data: 'isbn', "width": "15%" },
             { data: 'listPrice', "width": "10%" },
-            { data: 'author', "width": "20%" },
-            { data: 'category.name', "width": "15%" }
+            { data: 'author', "width": "15%" },
+            { data: 'category.name', "width": "10%" },
+            {
+                data: 'id',
+                "width": "25%",
+                "render": function (data) {
+                    return `
+                        <div class="w-75 btn-group" role="group">
+                            <a href="/admin/product/upsert?id=${data}" class="btn btn-primary mx-2">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                            <a href="/admin/product/delete/${data}" class="btn btn-danger mx-2">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </a>
+                        </div>
+                    `;
+                }
+            },
         ]
     });
 }
-
-$('#tableData').DataTable({
-    data: data,
-    columns: [
-        { data: 'name' },
-        { data: 'position' },
-        { data: 'salary' },
-        { data: 'office' }
-    ]
-});

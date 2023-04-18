@@ -150,27 +150,6 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return View();
         }
 
-        //Delete Product action
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            //retrieve one Product from the DB
-            //find only works on the primary key
-            //if you want to find other things use FirstOrDefault();
-            Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-
-            if (productFromDb == null)
-            {
-                return NotFound();
-            }
-
-            return View(productFromDb);
-        }
-
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
@@ -194,6 +173,30 @@ namespace BulkyWeb.Areas.Admin.Controllers
         {
             List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperteies: "Category").ToList();
             return Json(new { data = objProductList });
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            var productToDeleted = _unitOfWork.Product.Get(u => u.Id == id);
+
+            if (productToDeleted == null)
+            {
+                return Json(new { success = false, message = "Error while deleting" });
+            }
+
+            //delete old image
+            //we need to remove the slash here because that's how it's stored in the DB
+            var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, productToDeleted.ImageUrl.TrimStart('\\'));
+
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+
+            _unitOfWork.Product.Remove(productToDeleted);
+            _unitOfWork.Save();
+
+            return Json(new { success = true, message = "Delete Successful" });
         }
 
         #endregion
