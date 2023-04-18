@@ -10,11 +10,14 @@ namespace BulkyWeb.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        //we need this in our wwwroot folder
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         //because dbContext is registered in our services, we have access to it here via dependency injection
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -66,8 +69,48 @@ namespace BulkyWeb.Areas.Admin.Controllers
             //check that all the parts follow the requirements set in the model
             if (ModelState.IsValid)
             {
-                //adding the Product to the table queue
-                _unitOfWork.Product.Add(productVM.Product);
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    //this will give us a random name for our image
+                    //the get extension method is built in, it allows us to save the file as the same extension it was uploaded in
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    //this will give us the path to the product folder
+                    string productPath = Path.Combine(wwwRootPath, @"images\product");
+
+                    //if there is an image and we upload a new image
+                    if(!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+                    {
+                        //delete old image
+                        //we need to remove the slash here because that's how it's stored in the DB
+                        var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    //we use filemode.create to say we are creating a new file here
+                    //we use file stream here to give us the fullpath and what we are saving in that path
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    //we are saving the file image url + path into the model that will then go to the DB
+                    productVM.Product.ImageUrl = @"\images\product\" + fileName;
+                }
+
+                if (productVM.Product.Id == 0)
+                {
+                    //adding the Product to the table queue
+                    _unitOfWork.Product.Add(productVM.Product);
+                } else
+                {
+                    //update the Product to the table queue
+                    _unitOfWork.Product.Update(productVM.Product);
+                }
+
                 //saving the Product to the table (whatever is in the queue)
                 _unitOfWork.Save();
                 //allows you to show a notification on the next page
