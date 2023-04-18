@@ -23,19 +23,39 @@ namespace Bulky.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             //ie - _db.categories.Where(u=>u.Id === id).FirstOrDefault(); - _db.Set<T>() aka _dbSet.Categories.Where().FirstOrDefault
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                //split the includeProperties by comma and remove empty entires
+                foreach (var includeProp in includeProperties.Split(new Char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+
             return query.FirstOrDefault();
 
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             //List<Category> objCategoryList = _db.Categories.ToList(); - aka _dbSet.Categories.ToList()
             IQueryable<T> query = dbSet;
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                //split the includeProperties by comma and remove empty entires
+                foreach (var includeProp in includeProperties.Split(new Char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+
             return query.ToList();
         }
 

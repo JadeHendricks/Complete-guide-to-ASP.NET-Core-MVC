@@ -22,7 +22,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             //getting all the categories from the Product table
-            List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
+            //includeProperteies allows us to fill in the category via a foreign key
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperteies: "Category").ToList();
             return View(objProductList);
         }
 
@@ -185,5 +186,16 @@ namespace BulkyWeb.Areas.Admin.Controllers
             TempData["success"] = "Product deleted successfully!";
             return RedirectToAction("Index", "Product");
         }
+
+        #region API CALLS
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperteies: "Category").ToList();
+            return Json(new { data = objProductList });
+        }
+
+        #endregion
     }
 }
