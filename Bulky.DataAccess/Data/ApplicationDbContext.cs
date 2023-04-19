@@ -1,11 +1,13 @@
 ﻿using Bulky.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb.DataAccess.Data
 {
     //this is config that needs to be setup to use entity framework core
     //DbContext is basically the root class of entity framework core and it is with this that we will be accessing Entity Framework
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         //here we need to pass in some config when we create of a instance of ApplicationDbContext - and when we do, we pass that config onwards to the DbContext class
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -21,6 +23,9 @@ namespace BulkyWeb.DataAccess.Data
         //seeding data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //config needed to make IdentityDbContext work
+            base.OnModelCreating(modelBuilder);
+
             //Entity<WhatTableEntityWillBeWorkingOn>
             //HasData expects an array of categories that we want to seed into the Table
             modelBuilder.Entity<Category>().HasData(
