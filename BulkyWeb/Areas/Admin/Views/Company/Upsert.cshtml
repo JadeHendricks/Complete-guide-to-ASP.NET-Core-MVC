@@ -1,0 +1,101 @@
+﻿<!--If you do not pass in here it will pass down the entire company with it's default values-->
+@model Company
+
+<div class="card shadow border-0 my-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="py-2 text-white">@(Model.Id != 0 ? "Update" : "Create") Company</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <!--enctype="multipart/form-data" needs to be added else the file upload will not work, disppears on post because its not in the payload on submit-->
+        <form method="post" class="row" enctype="multipart/form-data">
+            <input asp-for="Id" hidden />
+            <div class="row">
+                <div class="col-12">
+                    <div class="border p-3">
+                        <!--we can also use ModelOnly || None || All (even if the error subject is blank), ModelOnly will only show model errors in here else nothing-->
+                        <div asp-validation-summary="ModelOnly"></div>
+                        <div class="form-floating py-2 col-12">
+                            <!--if the values are already populated it will automatically be inserted into the inputs-->
+                            <input asp-for="Name" class="form-control border-0 shadow">
+                            <label asp-for="Name" class="ms-2"></label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <!--if the values are already populated it will automatically be inserted into the inputs-->
+                            <input asp-for="PhoneNumber" class="form-control border-0 shadow">
+                            <label asp-for="PhoneNumber" class="ms-2"></label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <!--if the values are already populated it will automatically be inserted into the inputs-->
+                            <input asp-for="StreetAddress" class="form-control border-0 shadow">
+                            <label asp-for="StreetAddress" class="ms-2"></label>
+                            <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <!--if the values are already populated it will automatically be inserted into the inputs-->
+                            <input asp-for="City" class="form-control border-0 shadow">
+                            <label asp-for="City" class="ms-2"></label>
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <!--if the values are already populated it will automatically be inserted into the inputs-->
+                            <input asp-for="State" class="form-control border-0 shadow">
+                            <label asp-for="State" class="ms-2"></label>
+                            <span asp-validation-for="State" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <!--if the values are already populated it will automatically be inserted into the inputs-->
+                            <input asp-for="PostalCode" class="form-control border-0 shadow">
+                            <label asp-for="PostalCode" class="ms-2"></label>
+                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-6 col-md-3">
+                                @if (Model.Id != 0)
+                                {
+                                    <button type="submit" class="btn btn-primary form-control">Update</button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-primary form-control">Create</button>
+                                }
+
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <a asp-controller="Company" asp-action="Index" class="btn btn-outline-secondary border form-control">
+                                    Back to List
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </form>
+    </div>
+</div>
+
+<!--This will allow client side validation and prevent the page from reloading-->
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons lists table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ]
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

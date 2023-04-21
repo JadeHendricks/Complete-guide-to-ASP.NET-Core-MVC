@@ -10,7 +10,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
     //this will apply to all methods, you can also do them individually.
-    [Authorize(Roles = SD.Role_Admin)]
+    //[Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

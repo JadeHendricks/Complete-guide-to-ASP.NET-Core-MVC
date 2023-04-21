@@ -20,6 +20,7 @@ namespace BulkyWeb.DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         //seeding data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,6 +34,13 @@ namespace BulkyWeb.DataAccess.Data
                 new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
                 new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
                 new Category { Id = 3, Name = "History", DisplayOrder = 3 }
+            );
+
+            //seeding the company table with 3 companies
+            modelBuilder.Entity<Company>().HasData(
+                new Company { Id = 1, Name = "Tech Solutions", StreetAddress = "123 Tech St", City = "Tech City", PostalCode = "1235", State = "IL", PhoneNumber = "3416320151" },
+                new Company { Id = 2, Name = "Vivid Books", StreetAddress = "999 Vid St", City = "Vid City", PostalCode = "8955", State = "IL", PhoneNumber = "2498115151" },
+                new Company { Id = 3, Name = "Readers Club", StreetAddress = "778 Main St", City = "Lala City", PostalCode = "8484", State = "NY", PhoneNumber = "8411015151" }
             );
 
             modelBuilder.Entity<Product>().HasData(
