@@ -23,10 +23,19 @@ namespace Bulky.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
             //ie - _db.categories.Where(u=>u.Id === id).FirstOrDefault(); - _db.Set<T>() aka _dbSet.Categories.Where().FirstOrDefault
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query;
+            if (tracked)
+            {
+                query = dbSet;
+            } else
+            {
+                query = dbSet.AsNoTracking();
+            }
+
+           
             query = query.Where(filter);
 
             if (!string.IsNullOrEmpty(includeProperties))

@@ -11,7 +11,7 @@ namespace Bulky.DataAccess.Repository.IRepository
     {
         //T will be category or any other generic model on which we want to perform certain operations
         IEnumerable<T> GetAll(string? includeProperteies = null);
-        T Get(Expression<Func<T, bool>> filter, string? includeProperteies = null);
+        T Get(Expression<Func<T, bool>> filter, string? includeProperteies = null, bool tracked = false);
         void Add(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entity);
