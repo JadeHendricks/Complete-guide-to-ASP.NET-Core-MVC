@@ -21,7 +21,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperteies: "Category");
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
             return View(productList);
         }
 
@@ -29,7 +29,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
         {
             //we need to pass shopping cart model to the view as per the HTML
             ShoppingCart cart = new() {
-                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperteies: "Category"),
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category"),
                 Count = 1,
                 ProductId = productId
             };

@@ -51,11 +51,15 @@ namespace Bulky.DataAccess.Repository
 
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null)
         {
             //List<Category> objCategoryList = _db.Categories.ToList(); - aka _dbSet.Categories.ToList()
             IQueryable<T> query = dbSet;
-
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 //split the includeProperties by comma and remove empty entires
