@@ -43,15 +43,16 @@ namespace BulkyWeb.Areas.Customer.Controllers
         public IActionResult Details(ShoppingCart shoppingCart)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userID = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingCart.ApplicationUserId = userId;
 
             //checking if the cart exists already
-            ShoppingCart cartFromDatabase = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userID && u.ProductId == shoppingCart.ProductId);
+            ShoppingCart cartFromDatabase = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId && u.ProductId == shoppingCart.ProductId);
 
             if (cartFromDatabase != null)
             {
                 //shopping cart for this user exists, update the count on the item the user is ordering, based on userID and ProductID
-                cartFromDatabase.Count = shoppingCart.Count;
+                cartFromDatabase.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(cartFromDatabase);
             } else
             {
