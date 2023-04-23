@@ -22,6 +22,8 @@ namespace BulkyWeb.DataAccess.Data
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<OrderDetail> OrderDetail { get; set; }
+        public DbSet<OrderHeader> OrderHeader { get; set; }
 
         //seeding data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
