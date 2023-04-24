@@ -14,7 +14,7 @@ namespace Bulky.DataAccess.Repository.IRepository
 
         //here we can use this to update the payment status || order status
         void UpdateStatus(int id, string orderStatus, string? paymentStatus = null);
-		void UpdateStripePayment(int id, string sessionId, string paymentIntentId);
+		void UpdateStripePaymentId(int id, string sessionId, string paymentIntentId);
 	}
 }
 

@@ -34,7 +34,7 @@ namespace Bulky.DataAccess.Repository
 			}
 		}
 
-        public void UpdateStripePayment(int id, string sessionId, string paymentIntentId)
+        public void UpdateStripePaymentId(int id, string sessionId, string paymentIntentId)
         {
 			var orderFromDb = _db.OrderHeader.FirstOrDefault(u => u.Id == id);
             //sessionId gets generated when a user makes a payment
