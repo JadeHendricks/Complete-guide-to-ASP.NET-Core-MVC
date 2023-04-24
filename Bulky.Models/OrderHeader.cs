@@ -29,7 +29,8 @@ namespace Bulky.Models
         public DateTime PaymentDate { get; set; }
         public DateTime PaymentDueDate { get; set; }
 
-        public string? SessionId { get; set; }
+		//when we go to stripe, it creates a session, if that session is successful, it gives us a PaymentIntentId
+		public string? SessionId { get; set; }
         public string? PaymentIntentId { get; set; }
 
         [Required]

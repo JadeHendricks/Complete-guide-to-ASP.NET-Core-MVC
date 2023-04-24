@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Bulky.Utility;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ builder.Services.AddControllersWithViews();
 //when you add something to the services container, that way you are adding it to dependecy injection and we won't need to do new ApplicationDbContext etc
 //allows for dependency injections app wide
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//if the names inside of StripeSettings matches whats inside of appsettings then StripeSettings value will automatically be updated
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 builder.Services
     .AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -48,6 +52,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+//configuring stripe with it's secret key
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<String>();
 
 app.UseRouting();
 //must be added before UseAuthorization()
